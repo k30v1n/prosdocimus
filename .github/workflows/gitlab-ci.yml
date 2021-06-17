@@ -32,10 +32,14 @@ jobs:
     needs: test
     steps:
     - uses: actions/checkout@v2
-    - uses: docker://alpine:3.8
-    - name: building docker image with the commit SHA $GITHUB_SHA
-      run: docker build -t $GITHUB_SHA .
-#     - name: Setup Heroku
-#      uses: actions/heroku@main
-#     - name: test heroku
-#      run: heroku -h
+    - name: Setup heroku
+      uses: actions/heroku@main
+    - name: set heroku credentials
+      run: export HEROKU_API_KEY=${{secrets.HEROKU_API_KEY}}
+    - name: build image and push to heroku registry
+      run: heroku container:push web -a ${{secrets.HEROKU_APP}}
+      
+      
+#     - uses: docker://alpine:3.8
+#     - name: building docker image with the commit SHA $GITHUB_SHA
+#       run: docker build -t $GITHUB_SHA .
