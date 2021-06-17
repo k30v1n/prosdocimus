@@ -36,6 +36,8 @@ jobs:
       uses: actions/heroku@main
     - name: set heroku credentials
       run: export HEROKU_API_KEY=${{secrets.HEROKU_API_KEY}}
+    - name: get heroku long token
+      run: heroku authorizations:create
     - name: build image and push to heroku registry
       run: heroku container:push web -a ${{secrets.HEROKU_APP}}
       
