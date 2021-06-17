@@ -21,15 +21,10 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
-  
-  build_image:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
     - uses: docker://alpine:3.8
     - name: Setup docker
       run: docker ps
-    #- name: Setup Heroku
-     # uses: actions/heroku@main
-    #- name: test heroku
-     # run: heroku -h
+    - name: Setup Heroku
+      uses: actions/heroku@main
+    - name: test heroku
+      run: heroku -h
