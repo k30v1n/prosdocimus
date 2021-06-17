@@ -35,13 +35,14 @@ jobs:
     - name: Setting up Heroku environment
       with: 
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      env:
         HEROKU_APP: ${{ secrets.HEROKU_APP }}
       uses: actions/heroku@main
-    - name: get heroku long token
+    - name: Set up API KEY
+      run: export HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }}
+    - name: Get heroku long token
       run: heroku authorizations:create
     - name: build image and push to heroku registry
-      run: heroku container:push web -a $HEROKU_APP
+      run: heroku container:push web -a ${{ secrets.HEROKU_APP }}
       
       
 #     - uses: docker://alpine:3.8
