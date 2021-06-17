@@ -1,4 +1,4 @@
-name: Gitlab-CI
+name: Dotnet Heroku Workflow
 
 on:
   push:
@@ -19,6 +19,7 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
+      
   test:
     runs-on: ubuntu-latest
     needs: build
@@ -34,14 +35,15 @@ jobs:
     - uses: actions/checkout@v2
     - name: Setting up Heroku environment
       uses: actions/heroku@main
-    - name: Authenticate heroku
+    - name: Authenticate heroku CLI
       env: 
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: heroku container:login
-    - name: push heroku image
-      run: heroku container:push web -a ${{ secrets.HEROKU_APP }}
-      
-      
-#     - uses: docker://alpine:3.8
-#     - name: building docker image with the commit SHA $GITHUB_SHA
-#       run: docker build -t $GITHUB_SHA .
+    - name: Push heroku image
+      env: 
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web
+    - name: Deploy the new Heroku container
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web 
