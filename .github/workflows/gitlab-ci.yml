@@ -31,15 +31,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     steps:
-    - name: Setting required secrets as inputs and setting them as env vars
+    - uses: actions/checkout@v2
+    - name: Setting up Heroku environment
       with: 
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         HEROKU_APP: ${{ secrets.HEROKU_APP }}
       env:
         HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }}
         HEROKU_APP=${{ secrets.HEROKU_APP }}
-    - uses: actions/checkout@v2
-    - name: Setup heroku
       uses: actions/heroku@main
     - name: get heroku long token
       run: heroku authorizations:create
