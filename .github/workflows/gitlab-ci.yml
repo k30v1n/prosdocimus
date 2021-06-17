@@ -33,13 +33,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Setting up Heroku environment
-      with: 
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      with:
         HEROKU_APP: ${{ secrets.HEROKU_APP }}
       uses: actions/heroku@main
-    - name: Set up API KEY
-      run: export HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }}
     - name: Get heroku long token
+      env: 
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: heroku authorizations:create
     - name: build image and push to heroku registry
       run: heroku container:push web -a ${{ secrets.HEROKU_APP }}
