@@ -1,4 +1,4 @@
-name: Dotnet Heroku Workflow
+name: MAIN Dotnet Heroku Workflow
 
 on:
   push:
@@ -25,21 +25,21 @@ jobs:
     needs: build
     steps:
     - uses: actions/checkout@v2
-    - name: Test
+    - name: Tests
       run: dotnet test --no-build --verbosity normal
   
-  image_build:
+  heroku_deployment:
     runs-on: ubuntu-latest
     needs: test
     steps:
     - uses: actions/checkout@v2
-    - name: Setting up Heroku environment
+    - name: Set up Heroku environment
       uses: actions/heroku@main
-    - name: Authenticate heroku CLI
+    - name: Authenticate Heroku CLI
       env: 
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: heroku container:login
-    - name: Push heroku image
+    - name: Push Heroku image
       env: 
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web
