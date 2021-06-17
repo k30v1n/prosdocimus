@@ -26,7 +26,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Setup Heroku
-      uses: actions/heroku@main
-    - name: test heroku
-      run: heroku -h
+    - uses: docker://alpine:3.8
+    - name: Setup docker
+      run: docker ps
+    #- name: Setup Heroku
+     # uses: actions/heroku@main
+    #- name: test heroku
+     # run: heroku -h
