@@ -19,12 +19,21 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
     - name: Test
       run: dotnet test --no-build --verbosity normal
+  
+  image_build:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
     - uses: docker://alpine:3.8
-    - name: Setup docker
-      run: docker ps
-    - name: Setup Heroku
-      uses: actions/heroku@main
-    - name: test heroku
-      run: heroku -h
+    - name: building docker image with the commit SHA ${{GITHUB_SHA}}
+      run: docker built -t ${{GITHUB_SHA}} .
+    #- name: Setup Heroku
+    #  uses: actions/heroku@main
+    #- name: test heroku
+    #  run: heroku -h
