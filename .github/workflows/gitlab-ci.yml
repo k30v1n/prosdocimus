@@ -31,8 +31,8 @@ jobs:
     needs: test
     steps:
     - uses: docker://alpine:3.8
-    - name: building docker image with the commit SHA ${{GITHUB_SHA}}
-      run: docker built -t ${{GITHUB_SHA}} .
+    - name: building docker image with the commit SHA $GITHUB_SHA
+      run: docker built -t $GITHUB_SHA .
     #- name: Setup Heroku
     #  uses: actions/heroku@main
     #- name: test heroku
