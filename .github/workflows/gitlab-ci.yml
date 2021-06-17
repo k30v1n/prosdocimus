@@ -33,15 +33,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Setting up Heroku environment
-      with:
-        HEROKU_APP: ${{ secrets.HEROKU_APP }}
       uses: actions/heroku@main
-    - name: Get heroku long token
+    - name: Authenticate heroku
       env: 
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: | 
-        heroku authorizations:create,
-        heroku container:push web -a ${{ secrets.HEROKU_APP }}
+      run: heroku container:login
+    - name: push heroku image
+      run: heroku container:push web -a ${{ secrets.HEROKU_APP }}
       
       
 #     - uses: docker://alpine:3.8
