@@ -39,9 +39,9 @@ jobs:
     - name: Get heroku long token
       env: 
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku authorizations:create
-    - name: build image and push to heroku registry
-      run: heroku container:push web -a ${{ secrets.HEROKU_APP }}
+      run: | 
+        heroku authorizations:create,
+        heroku container:push web -a ${{ secrets.HEROKU_APP }}
       
       
 #     - uses: docker://alpine:3.8
