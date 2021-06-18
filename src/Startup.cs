@@ -10,6 +10,7 @@ namespace app
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -20,13 +21,10 @@ namespace app
             }
 
             app.UseRouting();
-
+            
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Running");
-                });
+                endpoints.MapControllers();
             });
         }
     }
