@@ -2,13 +2,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using prosdocimus.Workers;
 
-namespace app
+namespace prosdocimus
 {
     public class Startup
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHostedService<TwitterWorker>();
             services.AddControllers();
         }
 
